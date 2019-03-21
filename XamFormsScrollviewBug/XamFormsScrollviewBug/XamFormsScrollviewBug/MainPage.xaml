@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage
+  xmlns="http://xamarin.com/schemas/2014/forms"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+  Title="Xamarin Forms Odd Behavior Demo Page"
+  Appearing="MainPage_OnAppearing"
+  x:Class="XamFormsScrollviewBug.MainPage">
+
+  <ContentPage.Resources>
+    <ResourceDictionary>
+
+    </ResourceDictionary>
+  </ContentPage.Resources>
+
+  <ContentPage.Content>
+    <StackLayout>
+      <ScrollView>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+          </Grid.ColumnDefinitions>
+          <StackLayout Grid.Column="0"
+                       Margin="5"
+                x:Name="NumberGrid"
+                ></StackLayout>
+          <StackLayout Grid.Column="1">
+            
+              <Label 
+                Margin="10"
+                FontSize="Large"
+                Text="Scroll Down to the Button" />
+              <Entry Placeholder="Focus will be drawn here"> </Entry>
+              <Button Margin="5,2800,5,5"
+                      HorizontalOptions="Center"
+                      Text="Click to either side of this button"
+                      ></Button>
+          </StackLayout>
+
+        </Grid>
+      </ScrollView>
+    </StackLayout>
+  </ContentPage.Content>
+</ContentPage>
+

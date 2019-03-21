@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage
+  xmlns="http://xamarin.com/schemas/2014/forms"
+  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+  Title="Xamarin Forms Odd Behavior Demo Page"
+  
+  x:Class="XamFormsScrollviewBug.PageWithBug1">
+
+  <ContentPage.Resources>
+    <ResourceDictionary>
+
+    </ResourceDictionary>
+  </ContentPage.Resources>
+
+  <ContentPage.Content>
+    <StackLayout>
+      <ScrollView>
+        <StackLayout>
+
+
+          <Frame OutlineColor="Black" Margin="5,15,5,5">
+            <StackLayout>
+              <Label Text="Enabling and Controls" />
+              <StackLayout>
+                <Frame OutlineColor="Black" Margin="5,5,5,5">
+                  <StackLayout>
+                    <Label Text="Using InputTransparent - Mostly Do Not Do This" />
+                    <Entry Placeholder="Click Here" />
+                    <Button Text="Some Button"
+                            InputTransparent="True"
+                            Command="{Binding ButtonPressedCommand}"
+                            HorizontalOptions="StartAndExpand" />
+                    <Entry Placeholder="Or Click Here" />
+                    <Switch
+                      InputTransparent="True" />
+                    <Label
+                      Text="InputTransparent makes it so you cannot click on the control. However, it should not be used on any interactable control. " />
+                    <Label
+                      Text="Keyboard access is not blocked. Try clicking either text box, then press 'tab' to move onto the switch or button. Press 'space' or 'enter'." />
+                  </StackLayout>
+                </Frame>
+                <Frame OutlineColor="Black" Margin="5,5,5,5">
+                  <StackLayout>
+                    <Label Text="IsEnabled - Good Approach, With Risks" />
+                    <Entry Placeholder="Click Here" />
+                    <Button Text="Some Button"
+                            IsEnabled="False"
+                            HorizontalOptions="StartAndExpand" />
+                    <Entry Placeholder="Or Click Here" />
+                    <Switch
+                      IsEnabled="False" />
+                    <Label
+                      Text="IsEnabled blocks any user attempt to interact with the control. It does make the control appear disabled." />
+                    <Label
+                      Text="This does come with one unfortunate caveat - binding IsEnabled and the Command must be done in the right way, or it will be incorrect on loading the page." />
+                  </StackLayout>
+                </Frame>
+                <Frame OutlineColor="Black" Margin="5,5,5,5">
+                  <StackLayout>
+                    <Label Text="IsEnabled and Commands - Possible Bugs" />
+                    <Button Text="Bugged Button"
+                            IsEnabled="{Binding BugButtonIsEnabled}"
+                            Command="{Binding ButtonPressedCommand}"
+                            HorizontalOptions="StartAndExpand" />
+                    <Label Text="Button Is Enabled" />
+                    <Switch
+                      IsToggled="{Binding BugButtonIsEnabled}" />
+                    <Label
+                      Text="Before clicking the switch, notice two things. First, the switch is 'false' and so the button should be disabled. Second, notice that the button is enabled anyway." />
+
+                    <Label
+                      Text="This button is the exact same code, but the order of the button's Command and the IsEnabled are flipped" />
+                    <Button Text="Working Button"
+                            Command="{Binding ButtonPressedCommand}"
+                            IsEnabled="{Binding BugButtonIsEnabled}"
+                            HorizontalOptions="StartAndExpand" />
+                    <Label Text="Button Is Enabled" />
+                    <Switch
+                      IsToggled="{Binding BugButtonIsEnabled}" />
+                    <Label Text="The button is disabled, as expected." />
+                  </StackLayout>
+                </Frame>
+                <Frame OutlineColor="Black" Margin="5,5,5,5">
+                  <StackLayout>
+                    <Label Text="Solving the IsEnabled Issue" />
+                    <Label
+                      Text="There are two options. The first, and easiest, is to ensure that IsEnabled comes after the Command binding in xaml. This could be accidentally broken by human errors, and is not easily noticed." />
+                    <Label
+                      Text="The second approach involves understanding what is happening. The Command must be provided with a correct CanExecute method, so that the button is right on loading. Please examine the ViewModel for this control for a sample of the suggested approach, and further documentation." />
+                    <Button Text="Correct Button"
+                            IsEnabled="{Binding CanDisplaySampleText}"
+                            Command="{Binding DisplaySampleTextCommand}"
+                            HorizontalOptions="StartAndExpand" />
+                    <Switch
+                      IsToggled="{Binding CanDisplaySampleText}" />
+                  </StackLayout>
+                </Frame>
+                <Frame OutlineColor="Black" Margin="5,5,5,5">
+                  <StackLayout>
+                    <Label Text="Putting it Together - Opacity and IsEnabled" />
+                    <Label Text="In this example, we bind IsEnabled and Opacity to the same boolean using a converter." />
+                    <Entry />
+                    <Button Text="This Button Can Vanish"
+                            IsEnabled="{Binding CanPerformTask}"
+                            Command="{Binding PerformTask}"
+                             />
+
+                    <Entry />
+                    <Label Text="Vanish Button" />
+                    <Switch IsToggled="{Binding CanPerformTask}" />
+                  </StackLayout>
+                </Frame>
+              </StackLayout>
+            </StackLayout>
+          </Frame>
+
+        </StackLayout>
+      </ScrollView>
+    </StackLayout>
+  </ContentPage.Content>
+</ContentPage>
+
+
+
